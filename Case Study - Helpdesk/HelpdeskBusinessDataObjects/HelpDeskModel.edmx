@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HelpDeskDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="HelpDeskDBModelStoreContainer">
+          <EntitySet Name="Departments" EntityType="HelpDeskDBModel.Store.Departments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Employees" EntityType="HelpDeskDBModel.Store.Employees" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Problems" EntityType="HelpDeskDBModel.Store.Problems" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_EmployeeInDept" Association="HelpDeskDBModel.Store.FK_EmployeeInDept">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="DepartmentID" />
+          </Key>
+          <Property Name="DepartmentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="varchar" MaxLength="4" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="PhoneNo" Type="varchar" MaxLength="25" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="DepartmentID" Type="int" Nullable="false" />
+          <Property Name="Timer" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Problems">
+          <Key>
+            <PropertyRef Name="ProblemID" />
+          </Key>
+          <Property Name="ProblemID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_EmployeeInDept">
+          <End Role="Departments" Type="HelpDeskDBModel.Store.Departments" Multiplicity="1" />
+          <End Role="Employees" Type="HelpDeskDBModel.Store.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetDepartmentInfoAndSurnameForEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empID" Type="int" Mode="In" />
+          <Parameter Name="deptID" Type="int" Mode="InOut" />
+          <Parameter Name="deptName" Type="varchar" Mode="InOut" />
+          <Parameter Name="employeeSurname" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="GetDepartmentInfoForEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empID" Type="int" Mode="In" />
+          <Parameter Name="deptID" Type="int" Mode="InOut" />
+          <Parameter Name="deptName" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="GetEmployeeFullNames" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetEmployeeFullNamesInDept" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dept" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pGetEmployeeFullNames" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="pGetEmployeeFullNamesInDept" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dept" Type="int" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HelpDeskDBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HelpDeskDBEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Departments" EntityType="HelpDeskDBModel.Department" />
+          <EntitySet Name="Employees" EntityType="HelpDeskDBModel.Employee" />
+          <EntitySet Name="Problems" EntityType="HelpDeskDBModel.Problem" />
+          <AssociationSet Name="FK_EmployeeInDept" Association="HelpDeskDBModel.FK_EmployeeInDept">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <FunctionImport Name="GetDepartmentInfoAndSurnameForEmployee">
+            <Parameter Name="empID" Mode="In" Type="Int32" />
+            <Parameter Name="deptID" Mode="InOut" Type="Int32" />
+            <Parameter Name="deptName" Mode="InOut" Type="String" />
+            <Parameter Name="employeeSurname" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetDepartmentInfoForEmployee">
+            <Parameter Name="empID" Mode="In" Type="Int32" />
+            <Parameter Name="deptID" Mode="InOut" Type="Int32" />
+            <Parameter Name="deptName" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetEmployeeFullNames" ReturnType="Collection(String)" />
+          <FunctionImport Name="GetEmployeeFullNamesInDept" ReturnType="Collection(String)">
+          <Parameter Name="dept" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pGetEmployeeFullNames" ReturnType="Collection(String)" />
+          <FunctionImport Name="pGetEmployeeFullNamesInDept" ReturnType="Collection(String)">
+          <Parameter Name="dept" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentID" />
+          </Key>
+          <Property Name="DepartmentID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Employees" Relationship="HelpDeskDBModel.FK_EmployeeInDept" FromRole="Departments" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="4" Unicode="false" FixedLength="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="PhoneNo" Type="String" MaxLength="25" Unicode="false" FixedLength="false" />
+          <Property Name="Email" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="DepartmentID" Type="Int32" Nullable="false" />
+          <Property Name="Timer" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" p1:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Department" Relationship="HelpDeskDBModel.FK_EmployeeInDept" FromRole="Employees" ToRole="Departments" />
+        </EntityType>
+        <EntityType Name="Problem">
+          <Key>
+            <PropertyRef Name="ProblemID" />
+          </Key>
+          <Property Name="ProblemID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_EmployeeInDept">
+          <End Role="Departments" Type="HelpDeskDBModel.Department" Multiplicity="1" />
+          <End Role="Employees" Type="HelpDeskDBModel.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HelpDeskDBModelStoreContainer" CdmEntityContainer="HelpDeskDBEntities">
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="HelpDeskDBModel.Department">
+              <MappingFragment StoreEntitySet="Departments">
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="HelpDeskDBModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="Timer" ColumnName="Timer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Problems">
+            <EntityTypeMapping TypeName="HelpDeskDBModel.Problem">
+              <MappingFragment StoreEntitySet="Problems">
+                <ScalarProperty Name="ProblemID" ColumnName="ProblemID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetDepartmentInfoAndSurnameForEmployee" FunctionName="HelpDeskDBModel.Store.GetDepartmentInfoAndSurnameForEmployee" />
+          <FunctionImportMapping FunctionImportName="GetDepartmentInfoForEmployee" FunctionName="HelpDeskDBModel.Store.GetDepartmentInfoForEmployee" />
+          <FunctionImportMapping FunctionImportName="GetEmployeeFullNames" FunctionName="HelpDeskDBModel.Store.GetEmployeeFullNames" />
+          <FunctionImportMapping FunctionImportName="GetEmployeeFullNamesInDept" FunctionName="HelpDeskDBModel.Store.GetEmployeeFullNamesInDept" />
+          <FunctionImportMapping FunctionImportName="pGetEmployeeFullNames" FunctionName="HelpDeskDBModel.Store.pGetEmployeeFullNames" />
+          <FunctionImportMapping FunctionImportName="pGetEmployeeFullNamesInDept" FunctionName="HelpDeskDBModel.Store.pGetEmployeeFullNamesInDept" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

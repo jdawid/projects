@@ -1,0 +1,21 @@
+﻿<Window x:Class="windowHelpdeskMainMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Helpdesk Cast Study #1" Height="300" Width="300">
+    <Grid>
+        <Menu Height="23" Name="menuMain" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <MenuItem Header="File" Name="MenuItemFile">
+                <MenuItem Name="menuItemFileClose" Header="Close"/>
+            </MenuItem>
+            <MenuItem Header="Employee" Name="menuItemEmployeeGroup">
+                <MenuItem x:Name="menuItemEmployeeView" Header="View"/>
+                <MenuItem x:Name="menuItemEmployeeAdd" Header="Add"/>
+                <MenuItem x:Name="menuItemEmployeeUpdate" Header="Update"/>
+            </MenuItem>
+            <MenuItem Header="Drivers" Name="Drivers">
+                <MenuItem x:Name="MenuItemDriversEmployeeBusinessData" Header="Employee Business Data"/>
+                <MenuItem x:Name="MenuItemDriversEmployeeBusinessUser" Header="Employee Business User"/>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</Window>
